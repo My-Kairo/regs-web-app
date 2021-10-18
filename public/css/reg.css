@@ -1,0 +1,130 @@
+*{
+    margin: auto;
+}
+body{
+    text-align: center;
+    margin: auto;
+    background-image: url(https://www.teahub.io/photos/full/153-1532740_mclaren-mp4-12c-headlights.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    
+}
+
+.container {
+    background-color: hsla(0,0,0,0.5);
+}
+
+.col-4 {
+    padding-top: 20px;
+}
+
+.input-group-prepend {
+    background-color: rgb(236, 236, 69);
+    border: rgb(161, 161, 25);
+    color: black;
+}
+.col-12 {
+    background-color: rgb(236, 236, 69);
+    border-radius: 10px;
+    color: black;
+}
+.buttons{
+    margin-left: 70px;
+}
+h1{
+    font-weight: bolder; 
+    width: 100%;
+    color: rgb(239, 243, 30);
+    padding: 2%;
+    background-color: rgb(70, 70, 29);
+    font-size: 34px;
+    text-align: center;
+    font-family: 'Architects Daughter', cursive
+}
+
+h5 {
+    color: rgb(239, 243, 30);
+    font-family: 'Architects Daughter', cursive;
+    font-weight: bolder;
+
+}
+hr {
+    /* color: yellow; */
+    border: 10px solid rgb(247, 231, 9);
+    border-radius: 5px;
+}
+a{
+    border: 1px solid white;
+    border-radius: 5px;
+}
+.btn{
+    margin: 5px;
+    font-weight:bold;
+}
+.btn-primary {
+    background-color: rgb(252, 248, 52);
+    border-radius: 100%;
+    border: rgb(117, 116, 21);
+    width: auto;
+    color: #101109;
+    text-align: center;
+    font-size: 28px;
+    padding: 5px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.btn-danger {
+    background-color: rgb(252, 248, 52);
+    border-radius: 100%;
+    border: rgb(117, 116, 21);
+    width: auto;
+    color: #101109;
+    text-align: center;
+    font-size: 28px;
+    padding: 5px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+ form{
+     margin:auto;
+    margin-top: 2em;
+    
+}
+.display{
+    border: 3px 4px 3px solid rgb(107, 109, 2);
+    border-radius: 5px;
+    color: black;
+    background-color: rgb(252, 248, 52);
+    font-weight: bolder;
+    font-size: 1em;
+    width: 150px;
+    height: 30px;
+    margin-bottom: 10px;
+    display:inline-block;
+}
+.error{
+    color: white;
+    text-align: center;
+    font-weight: bolder;
+    margin-bottom: 2em;
+    font-size: large;
+}
+li{
+    margin: auto;
+    font-weight: bold;
+    color:blue;
+    text-align: center;
+}
+
+.dropdown {
+    padding-bottom: 200px;
+}
+@media (min-width: 750px) {
+    .input{
+        width: 100%;
+    }
+}
