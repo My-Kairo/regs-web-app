@@ -43,11 +43,11 @@ app.use(flash())
 
 app.get("/",registrations.toHomePage);
 app.post('/registration',registrations.insertFunc);
-app.get('/filter/:filtered', registrations.filter)
+app.get('/filter/:filtered', registrations.filter);
 app.get('/registration/reset', registrations.resert);
   
 
-let PORT = process.env.PORT || 3008;
+let PORT = process.env.PORT || 1608;
 
 app.listen(PORT, function(){
   console.log('App starting on port', PORT);

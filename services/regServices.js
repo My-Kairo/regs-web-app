@@ -1,6 +1,10 @@
 module.exports = function (pool) {
     
     let message = "";
+    async function numberPlates(){
+        const results = await pool.query('select * from registrations')
+        return results.rows;
+    }
 
     async function getTown(town) {
         const results = await pool.query('select * from townnames where init_town = $1', [town]);
@@ -14,22 +18,19 @@ module.exports = function (pool) {
 
     async function insertPlates(regNum, locID) {
 
-        let regs = await pool.query('insert into registrations (num_plates,town_id)values($1,$2)',[regNum, locID])
-        return regs.rows;
+        await pool.query('insert into registrations (num_plates,town_id)values($1,$2)',[regNum, locID])
+        
    }
-    async function numberPlates(){
-        const results = await pool.query('select * from registrations')
-        return results.rows;
-    }
+    
     
     async function addPlates(regNum, id) {
         let results = await getPlates(regNum);
-        if (results.length == 0){
-            message: 'Insert registrations!';
+        if (results.length !== 0){
+            return false;
         }
         else{
             await insertPlates(regNum,id);
-            message: 'Registration successfully added!';
+            return true;
         }
 
     }
@@ -52,8 +53,6 @@ module.exports = function (pool) {
     async function InvalidChecker(matchReg) {
         let result = await pool.query('Select init_town from townnames where init_town=$1', ['matchReg']);
         return result.rows;
-        console.log(result.rows)
-
     }
 
     return {
@@ -63,6 +62,7 @@ module.exports = function (pool) {
         getPlates,
         addPlates,
         insertPlates,
-        reset, InvalidChecker
+        reset,
+        InvalidChecker
     }
 }

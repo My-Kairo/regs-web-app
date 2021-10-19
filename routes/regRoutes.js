@@ -6,10 +6,10 @@ module.exports = function (regServices) {
         console.log(display)
   
         res.render('index', {
-          display: display
+          display
         })
       } catch (error) {
-        next(error.stack)
+        next(error)
       }
     }
     async function resert(req, res) {
@@ -18,21 +18,36 @@ module.exports = function (regServices) {
     }
     async function insertFunc(req, res, next) {
       try {
-            let getReg = req.body.names.toUpperCase();
-            let reg = /^((CA|CJ|CF)\s\d{3}\-\d{3})$|^((CA|CJ|CF)\s\d{3}\s\d{3})$|^((CA|CJ|CF)\s\d{4})$/.test(getReg);
-            if (!reg) {
+            let getReg = req.body.names;
+            // let reg = /^((CA|CJ|CF)\s\d{3}\-\d{3})$|^((CA|CJ|CF)\s\d{3}\s\d{3})$|^((CA|CJ|CF)\s\d{4})$/.test(getReg);
+            console.log(getReg);
+            if (getReg == "" || getReg == undefined) {
+              console.log('meyoo');
               req.flash('info', 'Please enter a valid registration number!');
-              // return res.redirect('/');
-            }else {
-                    let addplates = await regServices.getPlates(reg[0]);
-                    await regServices.insertPlates(reg, addplates);
-                    req.flash('info', 'Registration number successfully added!');
-
+              return res.redirect('/');
             }
-            res.render('index',{
-              reg,
-              display: await regServices.numberPlates()
-            })
+            let split = getReg.split(" ");
+            let all = split[0];
+            all = all.trim().toUpperCase();
+            let edd = await regServices.getTown(all);
+            if(edd.length > 0){
+              // let addplates = await regServices.addPlates(getReg, edd[0].id);
+              let display = await regServices.numberPlates();
+              res.render('index', {
+                edd,
+                display
+              })
+            }
+            else {
+                    // let addplates = await regServices.getPlates(getReg);
+                    // await regServices.insertPlates(getReg, reg);
+                    req.flash('info', 'Registration number successfully added!');
+                    res.redirect('/');
+            }
+            // res.render('index',{
+            //   getReg,
+            //   display: await regServices.numberPlates()
+            // })
   
       } catch (error) {
         next(error)
