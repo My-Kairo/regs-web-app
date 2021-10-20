@@ -34,5 +34,5 @@
     "url": "https://github.com/My-Kairo/Reg-app/issues"
   },
   "homepage": "https://github.com/My-Kairo/Reg-app#readme",
-  "description": ""
+  "description": "[![Build Status](https://app.travis-ci.com/My-Kairo/Reg-app.svg?branch=master)](https://app.travis-ci.com/My-Kairo/Reg-app)"
 }
