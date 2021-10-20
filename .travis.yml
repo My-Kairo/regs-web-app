@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  "12"
+env:
+  - "DATABASE_URL=postgresql://localhost:5432/registration"
+
+before_script:
+  - psql -c 'create database registration;' -U postgres
+  - psql -U postgres -d registration -a -f sql/tables.sql
+services:
+  - postgresql
