@@ -16,9 +16,9 @@ module.exports = function (pool) {
         return results.rows;
     }
 
-    async function insertPlates(regNum, locID) {
+    async function insertPlates(regNum, twnId) {
 
-        await pool.query('insert into registrations (num_plates,town_id)values($1,$2)',[regNum, locID])
+        await pool.query('insert into registrations (num_plates,town_id)values($1,$2)',[regNum, twnId])
         
    }
     

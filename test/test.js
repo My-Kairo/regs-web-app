@@ -16,55 +16,53 @@ const pool = new Pool({
     connectionString,
     ssl: useSSL
 });
-
-describe('Registration database web app', async function () {
+const registrations = Registrations(pool);
+describe('Registration web app', async function () {
     beforeEach(async function () {
+        console.log('@@@@@@');
         await pool.query('delete from registrations;');
     });
 
     it('should not add registrations when text field is empty ', async function () {
-        // the Factory Function is called CategoryService
-        const registrations = Registrations(pool);
-        let results = await registrations.numberPlates();
+        let regs = registrations;
+        let results = await regs.numberPlates();
         assert.deepStrictEqual(0, results.length);
     });
 
-    it('should to shouls be able to return number of registrations added', async function () {
-        const registrations = Registrations(pool);
-        await registrations.getPlates('CA 123 466');
-        await registrations.getPlates('CY 123 236');
-        await registrations.getPlates('CA 789 123');
+    it('should be able to return number of registrations added', async function () {
+        let regs = registrations;
+        await regs.insertPlates('CA 123 466','1');
+        await regs.insertPlates('CY 123 236','2');
+        await regs.insertPlates('CF 789 123','3');
 
-        let results = await registrations.numberPlates();
-        assert.deepEqual(0, results.length);
+        let results = await regs.numberPlates();
+        assert.deepEqual(3, results.length);
     });
 
     it('should not add the same registration number twice', async function () {
-        const registrations = Registrations(pool);
-        await registrations.insertPlates('CA 123 416', '1');
-        await registrations.insertPlates('CA 123 366', '1');
-        let results = await registrations.numberPlates();
+        let regs = registrations;
+        await regs.insertPlates('CA 123 416', '1');
+        await regs.insertPlates('CA 123 416', '1');
+        await regs.insertPlates('CF 743 621', '2');
 
-        assert.deepEqual(1, results.length);
+        assert.deepEqual(2, await regs.numberPlates().length);
     });
 
-    it('should to be able to filter all registrations from Cape Town', async function () {
-        const registrations = Registrations(pool);
-        await registrations.addPlates('CA 123 654', '1');
-        await registrations.addPlates('CJ 852 136', '2');
-        await registrations.addPlates('CA 852 936', '1');
-        let results = await registrations.filterByTown('CA');
+    it('should to be able to filter registrations from Cape Town', async function () {
+        let regs = registrations;
+        await regs.addPlates('CA 123 654', '1');
+        await regs.addPlates('CJ 852 136', '2');
+        await regs.addPlates('CA 852 936', '1');
+        let results = await regs.filterByTown('CA');
         assert.deepEqual([{"num_plates":"CA 123 654"},{"num_plates":"CA 852 136"}], results);
     });
 
-    it('should to be able to filter all registrations number', async function () {
-        // the Factory Function is called CategoryService
-        const registrations = Registrations(pool);
-        await registrations.addPlates('CA 789 231', '1');
-        await registrations.addPlates('CF 458 162', '2');
-        let results = await registrations.filterByTown('All');
-        assert.deepEqual([ {'num_plates':'CA 789 231'},
-        {'num_plates': 'CF 458 162' } ], results);
+    it('should to be able to display a registration number entered', async function () {
+        let regs = registrations;
+        let reg = ('CA 145 236', '1')
+        await regs.insertPlates(reg);
+        let plates = {num_plates: reg}
+        assert.deepEqual(plates, (await regs.getPlates('CA 145 236'))[0]);
     });
 
     after(function () {
