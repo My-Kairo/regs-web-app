@@ -13,6 +13,7 @@ module.exports = function (regServices) {
       }
     }
     async function resert(req, res) {
+      req.flash('info', 'Database successfully deleted!')
       await regServices.reset();
       res.redirect('/');
     }
@@ -33,6 +34,7 @@ module.exports = function (regServices) {
             if(edd.length > 0){
               // let addplates = await regServices.addPlates(getReg, edd[0].id);
               let display = await regServices.numberPlates();
+              req.flash('info', 'Registration successfully added!')
               res.render('index', {
                 edd,
                 display
