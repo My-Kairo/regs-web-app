@@ -33,13 +33,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/My-Kairo/Reg-app.git"
+    "url": "git+https://github.com/My-Kairo/regs-web-app.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/My-Kairo/Reg-app/issues"
+    "url": "https://github.com/My-Kairo/regs-web-app/issues"
   },
-  "homepage": "https://github.com/My-Kairo/Reg-app#readme"
+  "homepage": "https://github.com/My-Kairo/regs-web-app#readme"
 }
