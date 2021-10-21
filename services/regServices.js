@@ -1,67 +1,58 @@
 module.exports = function (pool) {
     
     let message = "";
-    async function numberPlates(){
-        const results = await pool.query('select * from registrations')
-        return results.rows;
-    }
+    let plates = pool;
+    let filter = [];
 
-    async function getTown(town) {
-        const results = await pool.query('select * from townnames where init_town = $1', [town]);
-        return results.rows;
-    }
-
-    async function getPlates(plate) {
-        const results = await pool.query('select * from registrations where num_plates = $1',[plate])
-        return results.rows;
-    }
-
-    async function insertPlates(regNum, twnId) {
-
-        await pool.query('insert into registrations (num_plates,town_id)values($1,$2)',[regNum, twnId])
-        
-   }
-    
-    
-    async function addPlates(regNum, id) {
-        let results = await getPlates(regNum);
-        if (results.length !== 0){
-            return false;
+    async function storeRegs(regi) {
+        var string = regi.toString().substring(0, 2);
+        const town = await plates.query(`SELECT * FROM townnames WHERE init_town = $1;`, [string]);
+        const reg = await plates.query(`SELECT * FROM registrations WHERE num_plates = '${string}'`);
+        if (town.rows.length == 0) {
+            message = "Enter registration numbers!"
+        } else if(reg.rows.length == 0){
+            await plates.query(`insert into registrations (num_plates, town_id) values ('${string}', ${town.rows[0].id})`)
+            message = "Registration number successfully added!"
+        }else{
+            message = "Registration number already added!"
         }
-        else{
-            await insertPlates(regNum,id);
-            return true;
-        }
-
     }
+
+    async function getRegs() {
+        let regs = await plates.query('SELECT num_plates FROM registrations;');
+        return regs.rows;
+    }
+
+    async function Regs() {
+        let regs = await plates.query("SELECT * FROM townnames;");
+        return regs.rows;
+      }
+
     async function filterByTown(towns){
-        let results = [];
         if(towns == 'All'){
-        results = await pool.query('select num_plates from registrations');
-        return results.rows;
+            filter = await plates.query('select num_plates from registrations;');
+        return filter.rows;
         }
         else{
-         results = await pool.query('select num_plates from townnames join registrations on registrations.town_id=townnames.id where init_town=$1',[towns])
-            return results.rows;
+            filter = await plates.query('select num_plates from townnames join registrations on registrations.town_id=townnames.id where init_town=$1',[towns])
+            return filter.rows;
         }
     }
     async function reset () {
-        await pool.query('delete from registrations');
+        await plates.query('delete from registrations');
 
     }
 
     async function InvalidChecker(matchReg) {
-        let result = await pool.query('Select init_town from townnames where init_town=$1', ['matchReg']);
+        let result = await plates.query('Select init_town from townnames where init_town=$1', ['matchReg']);
         return result.rows;
     }
 
     return {
-        numberPlates,
+        storeRegs,
+        getRegs,
         filterByTown,
-        getTown,
-        getPlates,
-        addPlates,
-        insertPlates,
+        Regs,
         reset,
         InvalidChecker
     }

@@ -1,55 +1,37 @@
 module.exports = function (regServices) {
 
-    async function toHomePage(req, res, next) {
+    async function Home(req, res, next) {
       try {
-        let display = await regServices.numberPlates();
-        console.log(display)
-  
+        let display = await regServices.getRegs();
+        let regs = await regServices.Regs();
+        // console.log(display)
         res.render('index', {
-          display
+          display: display,
+          display: regs
         })
       } catch (error) {
         next(error)
       }
     }
-    async function resert(req, res) {
-      req.flash('info', 'Database successfully deleted!')
-      await regServices.reset();
-      res.redirect('/');
-    }
-    async function insertFunc(req, res, next) {
+    
+    async function Register(req, res, next) {
       try {
-            let getReg = req.body.names;
-            // let reg = /^((CA|CJ|CF)\s\d{3}\-\d{3})$|^((CA|CJ|CF)\s\d{3}\s\d{3})$|^((CA|CJ|CF)\s\d{4})$/.test(getReg);
-            console.log(getReg);
-            if (getReg == "" || getReg == undefined) {
-              console.log('meyoo');
-              req.flash('info', 'Please enter a valid registration number!');
-              return res.redirect('/');
-            }
-            let split = getReg.split(" ");
-            let all = split[0];
-            all = all.trim().toUpperCase();
-            let edd = await regServices.getTown(all);
-            if(edd.length > 0){
-              // let addplates = await regServices.addPlates(getReg, edd[0].id);
-              let display = await regServices.numberPlates();
-              req.flash('info', 'Registration successfully added!')
-              res.render('index', {
-                edd,
-                display
-              })
-            }
-            else {
-                    // let addplates = await regServices.getPlates(getReg);
-                    // await regServices.insertPlates(getReg, reg);
-                    req.flash('info', 'Registration number successfully added!');
-                    res.redirect('/');
-            }
-            // res.render('index',{
-            //   getReg,
-            //   display: await regServices.numberPlates()
-            // })
+        let regs = await regServices.getRegs();
+        let getReg = req.body.names.toUpperCase();
+        let valid = /^((CA|CJ|CF)\s\d{3}\-\d{3})$|^((CA|CJ|CF)\s\d{3}\s\d{3})$|^((CA|CJ|CF)\s\d{4})$/.test(getReg);
+        // console.log(getReg);
+        if (valid == "" || valid == undefined) {
+          // console.log(reg);
+          req.flash('info', 'Valid registration number required!');
+          // return res.redirect('/');
+        }else{
+          await regServices.storeRegs(getReg)
+          req.flash('info', 'Registration successfully added!')
+        }
+        res.render('index', {
+          display: await regServices.Regs(),
+          display: await regServices.getRegs()
+        })
   
       } catch (error) {
         next(error)
@@ -61,21 +43,28 @@ module.exports = function (regServices) {
         let townFilter = req.params.filtered;
         let display = await regServices.filterByTown(townFilter);
         // console.log(display)
+        // req.flash('info', 'database empty, please enter registrations!')
         res.render('index', {
-          display
+          display: display
         })
   
       } catch (err) {
         next(err);
       }
     }
+
+    async function Reset(req, res) {
+      req.flash('info', 'Database successfully deleted!')
+      await regServices.reset();
+      res.redirect('/');
+    }
   
   
     return {
-      toHomePage,
-      insertFunc,
+      Home,
+      Register,
       filter,
-      resert
+      Reset
     }
   
   }

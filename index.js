@@ -41,10 +41,10 @@ app.use(session({
 app.use(flash())
 
 
-app.get("/",registrations.toHomePage);
-app.post('/registration',registrations.insertFunc);
+app.get("/",registrations.Home);
+app.post('/registration',registrations.Register);
 app.get('/filter/:filtered', registrations.filter);
-app.get('/registration/reset', registrations.resert);
+app.get('/registration/reset', registrations.Reset);
   
 
 let PORT = process.env.PORT || 1608;
