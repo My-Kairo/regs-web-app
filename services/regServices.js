@@ -7,15 +7,19 @@ module.exports = function (pool) {
     async function storeRegs(regi) {
         var string = regi.toString().substring(0, 2);
         const town = await plates.query(`SELECT * FROM townnames WHERE init_town = $1;`, [string]);
-        const reg = await plates.query(`SELECT * FROM registrations WHERE num_plates = '${string}'`);
+        const reg = await plates.query(`SELECT * FROM registrations WHERE num_plates = '${regi}'`);
         if (town.rows.length == 0) {
             message = "Enter registration numbers!"
         } else if(reg.rows.length == 0){
-            await plates.query(`insert into registrations (num_plates, town_id) values ('${string}', ${town.rows[0].id})`)
+            await plates.query(`insert into registrations (num_plates, town_id) values ('${regi}', ${town.rows[0].id})`)
             message = "Registration number successfully added!"
         }else{
             message = "Registration number already added!"
         }
+    }
+
+    async function getMessage(){
+        return message;
     }
 
     async function getRegs() {
@@ -38,14 +42,13 @@ module.exports = function (pool) {
             return filter.rows;
         }
     }
+
+    async function getFill(){
+        return fill;
+    }
     async function reset () {
         await plates.query('delete from registrations');
 
-    }
-
-    async function InvalidChecker(matchReg) {
-        let result = await plates.query('Select init_town from townnames where init_town=$1', ['matchReg']);
-        return result.rows;
     }
 
     return {
@@ -54,6 +57,6 @@ module.exports = function (pool) {
         filterByTown,
         Regs,
         reset,
-        InvalidChecker
+        getMessage
     }
 }

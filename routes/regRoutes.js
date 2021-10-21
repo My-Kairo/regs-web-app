@@ -16,17 +16,17 @@ module.exports = function (regServices) {
     
     async function Register(req, res, next) {
       try {
-        let regs = await regServices.getRegs();
+        await regServices.getRegs();
         let getReg = req.body.names.toUpperCase();
         let valid = /^((CA|CJ|CF)\s\d{3}\-\d{3})$|^((CA|CJ|CF)\s\d{3}\s\d{3})$|^((CA|CJ|CF)\s\d{4})$/.test(getReg);
-        // console.log(getReg);
+        console.log(getReg);
         if (valid == "" || valid == undefined) {
           // console.log(reg);
           req.flash('info', 'Valid registration number required!');
           // return res.redirect('/');
         }else{
           await regServices.storeRegs(getReg)
-          req.flash('info', 'Registration successfully added!')
+          req.flash('info', await regServices.getMessage());
         }
         res.render('index', {
           display: await regServices.Regs(),
@@ -43,7 +43,7 @@ module.exports = function (regServices) {
         let townFilter = req.params.filtered;
         let display = await regServices.filterByTown(townFilter);
         // console.log(display)
-        // req.flash('info', 'database empty, please enter registrations!')
+        // req.flash('info', await regServices.getFill())
         res.render('index', {
           display: display
         })

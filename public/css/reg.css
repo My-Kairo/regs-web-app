@@ -10,6 +10,11 @@ body{
     background-size: cover;
     
 }
+p {
+    color: white;
+    text-align: center;
+    /* font-size: larger; */
+}
 
 .container {
     background-color: hsla(0,0,0,0.5);
@@ -55,8 +60,9 @@ hr {
     border-radius: 5px;
 }
 a{
-    border: 1px solid white;
+    /* border: 1px solid rgb(0, 0, 0); */
     border-radius: 5px;
+    color: black;
 }
 .btn{
     margin: 5px;
@@ -116,8 +122,9 @@ a{
 li{
     margin: auto;
     font-weight: bold;
-    color:blue;
+    color: black;
     text-align: center;
+    /* background-color: yellow; */
 }
 
 .dropdown {

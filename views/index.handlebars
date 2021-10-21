@@ -2,12 +2,12 @@
   <h1>Registration Web Application</h1>
 
 <div class="container">
-
+<p>format: CA | CF | CJ and 123 456 | 123-456 | 1234</p>
   <form method="post" action="/registration">
       <div class="input-group col-4 ">
         <span class="input-group-text input-group-prepend" id="inputGroup-sizing-default">Reg Number</span>
         <input type="text" class="form-control input col-12" aria-label="Sizing example input" pattern='/^((CA|CJ|CF)\s\d{3}\-\d{3})$|^((CA|CJ|CF)\s\d{3}\s\d{3})$|^((CA|CJ|CF)\s\d{4})$/i'
-          title="Please add the right format eg CA 142 425" placeholder="CA 123-161" name="names" aria-describedby="inputGroup-sizing-default">
+          title="Please add the right format" placeholder="CA 123-161" name="names" aria-describedby="inputGroup-sizing-default">
       </div>
 
       <div class="error">
