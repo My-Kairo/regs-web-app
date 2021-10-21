@@ -1,7 +1,7 @@
 {
   "name": "regs-web-app",
   "version": "1.0.0",
-  "description": "[![Build Status](https://app.travis-ci.com/My-Kairo/Reg-app.svg?branch=master)](https://app.travis-ci.com/My-Kairo/Reg-app)",
+  "description": "[![Build Status](https://app.travis-ci.com/My-Kairo/regs-web-app.svg?branch=master)](https://app.travis-ci.com/My-Kairo/regs-web-app)",
   "main": "index.js",
   "directories": {
     "test": "test"
