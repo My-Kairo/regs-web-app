@@ -61,9 +61,9 @@ describe('Registration web app', async function () {
     it('should to be able to display a registration number entered', async function () {
         let regs = registrations;
         let reg = ('CA 145 236', '1')
-        await regs.insertPlates(reg);
+        await regs.storeRegs(reg);
         let plates = {num_plates: reg}
-        assert.deepEqual(plates, (await regs.getPlates('CA 145 236'))[0]);
+        assert.deepEqual(plates, (await regs.getRegs('CA 145 236'))[0]);
     });
 
     after(function () {
