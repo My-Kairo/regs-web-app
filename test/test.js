@@ -3,13 +3,13 @@ const Registrations = require('../services/regServices');
 const pg = require('pg');
 const Pool = pg.Pool;
 
-// should we use a SSL connection
+// SSL connection
 let useSSL = false;
 let local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
     useSSL = true;
 }
-// which db connection to use
+// db connection to use
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/registration';
 
 const pool = new Pool({
@@ -22,37 +22,38 @@ describe('Registration web app', async function () {
         console.log('@@@@@@');
         await pool.query('delete from registrations;');
     });
+// what is a difference between equal, deepequal and strict equal
 
-    it('should not add registrations when text field is empty ', async function () {
+    it('Should not add registrations when there is no input in the text field ', async function () {
         let regs = registrations;
-        let results = await regs.numberPlates();
+        let results = await regs.getRegs();
         assert.deepStrictEqual(0, results.length);
     });
 
-    it('should be able to return number of registrations added', async function () {
+    it('Should be able to return list of registrations added', async function () {
         let regs = registrations;
-        await regs.insertPlates('CA 123 466','1');
-        await regs.insertPlates('CY 123 236','2');
-        await regs.insertPlates('CF 789 123','3');
+        await regs.storeRegs('CA 123 466');
+        await regs.storeRegs('CY 123 236');
+        await regs.storeRegs('CF 789 123');
 
-        let results = await regs.numberPlates();
+        let results = await regs.getRegs();
         assert.deepEqual(3, results.length);
     });
 
-    it('should not add the same registration number twice', async function () {
+    it('Should not add the same registration number twice', async function () {
         let regs = registrations;
-        await regs.insertPlates('CA 123 416', '1');
-        await regs.insertPlates('CA 123 416', '1');
-        await regs.insertPlates('CF 743 621', '2');
+        await regs.storeRegs('CA 123 416');
+        await regs.storeRegs('CA 123 416');
+        await regs.storeRegs('CF 743 621');
 
-        assert.deepEqual(2, await regs.numberPlates().length);
+        assert.deepEqual(2, await regs.getRegs().length);
     });
 
-    it('should to be able to filter registrations from Cape Town', async function () {
+    it('Should be able to filter registrations from Cape Town', async function () {
         let regs = registrations;
-        await regs.addPlates('CA 123 654', '1');
-        await regs.addPlates('CJ 852 136', '2');
-        await regs.addPlates('CA 852 936', '1');
+        await regs.storeRegs('CA 123 654');
+        await regs.storeRegs('CJ 852 136');
+        await regs.storeRegs('CA 852 936');
         let results = await regs.filterByTown('CA');
         assert.deepEqual([{"num_plates":"CA 123 654"},{"num_plates":"CA 852 136"}], results);
     });

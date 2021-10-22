@@ -40,7 +40,6 @@ app.use(session({
 }));
 app.use(flash())
 
-
 app.get("/",registrations.Home);
 app.post('/registration',registrations.Register);
 app.get('/filter/:filtered', registrations.filter);
