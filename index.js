@@ -1,7 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const session = require('cookie-session');
+const session = require('express-session');
 const flash = require('express-flash');
 const Registrations = require('./routes/regRoutes');
 const Regservice = require('./services/regServices');
@@ -10,18 +10,18 @@ const Pool = postgres.Pool;
 
 const app = express();
  
-
 let useSSL = false;
 let local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
     useSSL = true;
 }
-
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/registration';
 
 const pool = new Pool({
     connectionString,
-    ssl: useSSL
+    ssl: {
+      rejectUnauthorized: false,
+    },
 });
 
 const reg = Regservice(pool)
@@ -33,20 +33,18 @@ const handlebarSetup = exphbs({
   layoutsDir: "./views/layouts",
 });
 
-app.engine('handlebars', handlebarSetup);
-app.set('view engine', 'handlebars');
-
 app.use(session({
   secret : "error messages",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
 }));
+app.use(flash())
+app.engine('handlebars', handlebarSetup);
+app.set('view engine', 'handlebars');
+app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.use(express.static('public'));
-app.use(flash())
 
 app.get("/",registrations.Home);
 app.post('/registration',registrations.Register);
