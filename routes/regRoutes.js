@@ -22,7 +22,7 @@ module.exports = function (regServices) {
         console.log(getReg);
         if (valid == "" || valid == undefined) {
           // console.log(reg);
-          req.flash('info', 'Valid registration number required!');
+          req.flash('error', 'Valid registration number required!');
           // return res.redirect('/');
         }else{
           await regServices.storeRegs(getReg)

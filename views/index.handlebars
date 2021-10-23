@@ -10,9 +10,14 @@
           title="Please add the right format" placeholder="CA 123-161" name="names" aria-describedby="inputGroup-sizing-default">
       </div>
 
-      <div class="error">
+      <div>
         {{#if messages.info}}
-        <span class="error">{{messages.info}}</span>
+        <span class="info">{{messages.info}}</span>
+        {{/if}}
+        </div>
+        <div>
+        {{#if messages.error}}
+        <span class="error">{{messages.error}}</span>
         {{/if}}
       </div>
       <br>
