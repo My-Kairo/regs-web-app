@@ -33,19 +33,19 @@ module.exports = function (pool) {
       }
 
     async function filterByTown(towns){
+        
         if(towns == 'All'){
             filter = await plates.query('select num_plates from registrations;');
+            message = "All towns have been selected"
         return filter.rows;
         }
         else{
-            filter = await plates.query('select num_plates from townnames join registrations on registrations.town_id=townnames.id where init_town=$1',[towns])
+            filter = await plates.query('select num_plates from townnames join registrations on registrations.town_id=townnames.id where init_town=$1',[towns]);
+            message = "A town was selected"
             return filter.rows;
         }
     }
 
-    async function getFill(){
-        return fill;
-    }
     async function reset () {
         await plates.query('delete from registrations');
 

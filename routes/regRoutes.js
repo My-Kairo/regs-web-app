@@ -43,7 +43,7 @@ module.exports = function (regServices) {
         let townFilter = req.params.filtered;
         let display = await regServices.filterByTown(townFilter);
         // console.log(display)
-        // req.flash('info', await regServices.getFill())
+        req.flash('info', await regServices.getMessage());
         res.render('index', {
           display: display
         })
