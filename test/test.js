@@ -3,8 +3,6 @@ const Registrations = require('../services/regServices');
 const pg = require('pg');
 const Pool = pg.Pool;
 
-// SSL connection
-
 // db connection to use
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/registration';
 
@@ -21,10 +19,8 @@ const registrations = Registrations(pool);
 
 describe('Registration web app', async function () {
     beforeEach(async function () {
-        console.log('@@@@@@');
         await pool.query('delete from registrations;');
     });
-// what is a difference between equal, deepequal and strict equal
 
     it('Should not add registrations when there is no input in the text field ', async function () {
         let regs = registrations;
@@ -33,7 +29,6 @@ describe('Registration web app', async function () {
     });
 
     it('Should count how many registrations added', async function () {
-        // await pool.query('delete from registrations;');
 
         let regs = registrations;
         await regs.storeRegs('CA 123 466');
@@ -45,7 +40,6 @@ describe('Registration web app', async function () {
     });
 
     it('Should not add the same registration number twice', async function () {
-        // await pool.query('delete from registrations;');
 
         let regs = registrations;
         await regs.storeRegs('CA 123 416');
@@ -57,7 +51,6 @@ describe('Registration web app', async function () {
     });
 
     it('Should be able to filter registrations from Cape Town', async function () {
-        // await pool.query('delete from registrations;');
 
         let regs = registrations;
         await regs.storeRegs('CA 123 654');
@@ -72,7 +65,6 @@ describe('Registration web app', async function () {
     });
 
     it('should to be able to display a registration number entered', async function () {
-        // await pool.query('delete from registrations;');
 
         let regs = registrations;
         await regs.storeRegs('CA 123 456');
