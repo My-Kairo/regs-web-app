@@ -11,11 +11,12 @@ const Pool = postgres.Pool;
 const app = express();
  
 let useSSL = false;
-let local = process.env.LOCAL || false;
+let local = process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0" || false;
 if (process.env.DATABASE_URL && !local) {
     useSSL = true;
 }
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/registration';
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const pool = new Pool({
     connectionString,
