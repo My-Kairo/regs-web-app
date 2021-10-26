@@ -6,15 +6,12 @@ const Pool = pg.Pool;
 // SSL connection
 let useSSL = false;
 let local = process.env.LOCAL || false;
-if (process.env.DATABASE_URL && !local) {
-    useSSL = true;
-}
+
 // db connection to use
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/registration';
 
 const pool = new Pool({
-    connectionString,
-    ssl: useSSL
+    connectionString
 });
 const registrations = Registrations(pool);
 describe('Registration web app', async function () {
