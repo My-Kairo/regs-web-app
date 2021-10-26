@@ -1,3 +1,5 @@
+const flash = require("express-flash");
+
 module.exports = function (regServices) {
 
     async function Home(req, res, next) {
@@ -23,7 +25,6 @@ module.exports = function (regServices) {
         if (valid == "" || valid == undefined) {
           // console.log(reg);
           req.flash('error', 'Valid registration number required!');
-          // return res.redirect('/');
         }else{
           await regServices.storeRegs(getReg)
           req.flash('info', await regServices.getMessage());
@@ -40,10 +41,11 @@ module.exports = function (regServices) {
   
     async function filter(req, res, next) {
       try {
-        let townFilter = req.params.filtered;
-        let display = await regServices.filterByTown(townFilter);
+        let Filter = req.params.filtered;
+        let display = await regServices.filterByTown(Filter);
         // console.log(display)
         req.flash('info', await regServices.getMessage());
+        
         res.render('index', {
           display: display
         })
@@ -54,12 +56,11 @@ module.exports = function (regServices) {
     }
 
     async function Reset(req, res) {
-      req.flash('info', 'Database successfully deleted!')
+      req.flash('info', 'Database successfully deleted!');
       await regServices.reset();
       res.redirect('/');
     }
-  
-  
+ 
     return {
       Home,
       Register,

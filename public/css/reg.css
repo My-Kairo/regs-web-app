@@ -68,7 +68,7 @@ a{
     margin: 5px;
     font-weight:bold;
 }
-.btn-primary {
+.btn-success {
     background-color: rgb(252, 248, 52);
     border-radius: 100%;
     border: rgb(117, 116, 21);
@@ -82,7 +82,7 @@ a{
     margin: 5px;
 }
 
-.btn-danger {
+.btn-warning {
     background-color: rgb(252, 248, 52);
     border-radius: 100%;
     border: rgb(117, 116, 21);
@@ -112,7 +112,7 @@ a{
     margin-bottom: 10px;
     display:inline-block;
 }
-.error{
+.red {
     color: rgb(255, 0, 221);
     text-align: center;
     font-weight: bolder;
@@ -120,7 +120,7 @@ a{
     font-size: 30px;
 
 }
-.info {
+.green {
     color: green;
     text-align: center;
     font-weight: bolder;
@@ -136,8 +136,9 @@ li{
 }
 
 .dropdown {
-    padding-bottom: 200px;
+    padding-bottom: 50px;
 }
+
 @media (min-width: 750px) {
     .input{
         width: 100%;
