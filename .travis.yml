@@ -9,8 +9,3 @@ before_script:
   - psql -U postgres -d registration -a -f sql/tables.sql
 services:
   - postgresql
-
-  addons:
-  apt:
-    packages:
-      - libssl1.0.0
